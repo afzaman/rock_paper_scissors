@@ -1,73 +1,78 @@
-<script>
-computerSelection = computerPlay()
-    function computerPlay(){
-        const rand = Math.floor(Math.random()*3);
-        if (rand == 1) {
-            computerSelection = 'ROCK';
-        } else if (rand == 2) {
-            computerSelection = 'PAPER';
-        } else {
-            computerSelection = 'SCISSOR';
-        }
-        return computerSelection
-    }
-    function playRound() {
-        playerSelection = prompt("Please enter Rock, Paper or Scissor");
-        playerSelection = playerSelection.toUpperCase();
-        if (playerSelection !== 'ROCK' && playerSelection !== 'PAPER' && playerSelection !== 'SCISSOR' ){
-            console.log('Invalid, please enter Rock, Paper or Scissor');
-            return playRound();
-        }
-        computerSelection = computerPlay(computerSelection);
-        if (playerSelection == computerSelection) {
-            return "Tie!"
-        }
-        if (playerSelection == 'ROCK') {
-            if (computerSelection == 'PAPER') {
-                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
+<!DOCTYPE html>
+<html darkmode="false">
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>So you wanna play Rock, Paper, Scissors Huh?</h1>
+        <div class="selections">
+            <button id="rock" onclick="playRound('ROCK')">ROCK</button>
+            <button id="paper" onclick="playRound('PAPER')">PAPER</button>
+            <button id="scissors" onclick="playRound('SCISSORS')">SCISSORS</button>
+            <br>
+        </div>
+        <div class="results">
+            <div id="playerSelection"></div>
+            <div id="computerSelection"></div>
+            <div>Round # <div id="round"></div> - <div id="roundResult"></div></div>
+        </div>
+        <br>
+        <div>
+            <p>Player Score <div id="playerScore">0</div></p>
+            <p>Computer Score <div id="computerScore">0</div></p>
+            <br>
+            <div id="finalResult"></div>
+            <br>
+            <button id="playAgain" onclick="refreshPage()" style="opacity: 0">Play Again?</button>
+        </div>
+        <script>
+            let playAgain = document.getElementById('playAgain');
+            playAgain.style.opacity = "0"
+
+            function refreshPage(){
+                window.location.reload();
             }
-        }            
-        if (playerSelection == 'PAPER') {
-            if (computerSelection == 'SCISSOR') {
-                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
+            let computerScore = 0;
+            let playerScore = 0;
+            let round = 0;
+            function playRound(playerSelection) {
+                let computerSelection = Math.floor(Math.random()*3);
+                if (computerSelection == 1) {
+                    computerSelection = 'ROCK';
+                } else if (computerSelection == 2) {
+                    computerSelection = 'PAPER';
+                } else {
+                    computerSelection = 'SCISSORS';
+                }
+                if (playerSelection == computerSelection) {
+                    roundResult = 'Tie!';                    
+                    } else if (playerSelection == 'ROCK' && computerSelection == 'PAPER' || playerSelection == 'PAPER' && computerSelection == 'SCISSORS' || playerSelection == 'SCISSORS' && computerSelection == 'ROCK') {
+                        computerScore += 1;
+                        round += 1;
+                        roundResult = 'Computer Wins!';
+                        } else {
+                            playerScore += 1;
+                            round += 1;
+                            roundResult = 'Player Wins!';
+                    }
+                document.getElementById('computerScore').textContent = computerScore;
+                document.getElementById('playerScore').textContent = playerScore;
+                document.getElementById('round').textContent = round;
+                document.getElementById('computerSelection').textContent = 'The Computer Picked: ' + computerSelection;
+                document.getElementById('playerSelection').textContent = 'You Picked: ' + playerSelection;
+                document.getElementById('roundResult').textContent = roundResult;
+                if (round >= 5){
+                    document.getElementById("rock").disabled = true;
+                    document.getElementById("paper").disabled = true;
+                    document.getElementById("scissors").disabled = true;
+                    if (computerScore > playerScore){
+                        document.getElementById('finalResult').textContent = 'You LOST, how could you!?';
+                    } else {
+                        document.getElementById('finalResult').textContent = 'You WON, you must have cheated...';
+                    }
+                    playAgain.style.opacity = "1";
+                }
             }
-        }
-        if (playerSelection == 'SCISSOR') {
-            if (computerSelection == 'ROCK') {
-                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
-            }
-        }
-        else {
-            return 'Player wins! Your ' + playerSelection + ' beats their ' + computerSelection;
-        }
-    }
-    function game(){
-        const rounds = 5;
-        computerScore = 0;
-        playerScore = 0;
-        for (var i = 0; i < rounds; i++){
-            result = playRound()
-            if (result == 'Player wins! Your ' + playerSelection + ' beats their ' + computerSelection){
-                playerScore = playerScore + 1;
-                console.log(result) 
-            }
-            if (result == 'Tie!'){
-                console.log(result) 
-            }
-            if (result == 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection) {
-                computerScore = computerScore + 1;
-                console.log(result) 
-            }                          
-        }
-        if (computerScore == playerScore) {
-            return 'Tie! Player: ' + playerScore + ' vs Computer: ' + computerScore;
-        }
-        if (computerScore > playerScore) {
-            return 'Computer Wins! Player: ' + playerScore + ' vs Computer: ' + computerScore;
-        }
-        if (computerScore < playerScore) {
-            return 'Player Wins! Player: ' + playerScore + ' vs Computer: ' + computerScore;
-        }
-    }
-    console.log(game())
-</script>
+        </script>
+    </body>
+</html>

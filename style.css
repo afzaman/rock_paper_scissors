@@ -1,0 +1,21 @@
+body {
+    font-family: Roboto;
+    font: bold;
+    background-color: #FFDDE2;
+    margin: auto;
+    width: 75%;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+button {
+    font-family: Roboto;
+    font-size: 30px;
+    width: auto;
+    background-color: #6F5E76;
+    color: white;
+    border: 0px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
