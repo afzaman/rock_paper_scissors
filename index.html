@@ -1,0 +1,73 @@
+<script>
+computerSelection = computerPlay()
+    function computerPlay(){
+        const rand = Math.floor(Math.random()*3);
+        if (rand == 1) {
+            computerSelection = 'ROCK';
+        } else if (rand == 2) {
+            computerSelection = 'PAPER';
+        } else {
+            computerSelection = 'SCISSOR';
+        }
+        return computerSelection
+    }
+    function playRound() {
+        playerSelection = prompt("Please enter Rock, Paper or Scissor");
+        playerSelection = playerSelection.toUpperCase();
+        if (playerSelection !== 'ROCK' && playerSelection !== 'PAPER' && playerSelection !== 'SCISSOR' ){
+            console.log('Invalid, please enter Rock, Paper or Scissor');
+            return playRound();
+        }
+        computerSelection = computerPlay(computerSelection);
+        if (playerSelection == computerSelection) {
+            return "Tie!"
+        }
+        if (playerSelection == 'ROCK') {
+            if (computerSelection == 'PAPER') {
+                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
+            }
+        }            
+        if (playerSelection == 'PAPER') {
+            if (computerSelection == 'SCISSOR') {
+                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
+            }
+        }
+        if (playerSelection == 'SCISSOR') {
+            if (computerSelection == 'ROCK') {
+                return 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection;
+            }
+        }
+        else {
+            return 'Player wins! Your ' + playerSelection + ' beats their ' + computerSelection;
+        }
+    }
+    function game(){
+        const rounds = 5;
+        computerScore = 0;
+        playerScore = 0;
+        for (var i = 0; i < rounds; i++){
+            result = playRound()
+            if (result == 'Player wins! Your ' + playerSelection + ' beats their ' + computerSelection){
+                playerScore = playerScore + 1;
+                console.log(result) 
+            }
+            if (result == 'Tie!'){
+                console.log(result) 
+            }
+            if (result == 'Computer wins! Their ' + computerSelection + ' beats your ' + playerSelection) {
+                computerScore = computerScore + 1;
+                console.log(result) 
+            }                          
+        }
+        if (computerScore == playerScore) {
+            return 'Tie! Player: ' + playerScore + ' vs Computer: ' + computerScore;
+        }
+        if (computerScore > playerScore) {
+            return 'Computer Wins! Player: ' + playerScore + ' vs Computer: ' + computerScore;
+        }
+        if (computerScore < playerScore) {
+            return 'Player Wins! Player: ' + playerScore + ' vs Computer: ' + computerScore;
+        }
+    }
+    console.log(game())
+</script>
